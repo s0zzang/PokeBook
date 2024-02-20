@@ -1,0 +1,72 @@
+@import url('https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css');
+
+:root {
+  font-family: 'Galmuri9', sans-serif;
+}
+
+* {
+  margin: unset;
+  padding: unset;
+}
+
+body {
+  padding: 60px 50px 50px;
+  background: #7571aa;
+}
+
+h1 {
+  font-family: 'Galmuri7', sans-serif;
+  color: #ffdf9b;
+  text-shadow: -5px 0 #71678a, 0 5px #71678a, 5px 0 #71678a, 0 -5px #71678a;
+  font-size: 60px;
+  margin-top: -1.2em;
+  letter-spacing: -0.6px;
+  margin-bottom: 0.2em;
+}
+
+.card-list {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  background: #b5b1e8;
+  border: 4px solid #333847;
+  border-radius: 20px;
+  padding: 30px 20px 20px;
+}
+
+.card-inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+
+.poket-card {
+  background: #d1cefd;
+  border: 4px solid #eae2ff;
+  border-radius: 15px;
+  padding: 20px 10px 10px;
+}
+
+.poket-name {
+  font-size: 24px;
+  color: #f4ebff;
+  text-shadow: -2px 0 #666181, 0 2px #666181, 2px 0 #666181, 0 -2px #666181;
+}
+
+.poket-type {
+  margin: 10px 0 10px;
+  font-size: 14px;
+}
+
+.poket-type span {
+  display: inline-block;
+  background: #e997ac;
+  padding: 0 .6em .2em;
+  border-radius: .6em;
+}
+
+.poket-img {
+  aspect-ratio: 1/1;
+  width: 50%;
+  object-fit: scale-down;
+}
