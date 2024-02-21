@@ -2,6 +2,7 @@
 
 :root {
   font-family: 'Galmuri9', sans-serif;
+  font-size: 10px;
 }
 
 * {
@@ -10,7 +11,7 @@
 }
 
 body {
-  padding: 60px 50px 50px;
+  padding: 6rem 5rem;
   background: #7571aa;
 }
 
@@ -18,8 +19,8 @@ h1 {
   font-family: 'Galmuri7', sans-serif;
   color: #ffdf9b;
   text-shadow: -5px 0 #71678a, 0 5px #71678a, 5px 0 #71678a, 0 -5px #71678a;
-  font-size: 60px;
-  margin-top: -1.2em;
+  font-size: 6rem;
+  margin-top: -1.4em;
   letter-spacing: -0.6px;
   margin-bottom: 0.2em;
 }
@@ -29,44 +30,174 @@ h1 {
   margin: 0 auto;
   text-align: center;
   background: #b5b1e8;
-  border: 4px solid #333847;
-  border-radius: 20px;
-  padding: 30px 20px 20px;
+  border: .4rem solid #333847;
+  border-radius: 2rem;
+  padding: 4rem 2rem;
+  position: relative;
 }
 
 .card-inner {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 10px;
+  gap: 1rem;
 }
 
 .poket-card {
   background: #d1cefd;
-  border: 4px solid #eae2ff;
-  border-radius: 15px;
-  padding: 20px 10px 10px;
+  border: .4rem solid #eae2ff;
+  border-radius: 1.5rem;
+  padding: 2rem 1rem 1rem;
+  position: relative;
+  aspect-ratio: 1/1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
 }
 
 .poket-name {
-  font-size: 24px;
-  color: #f4ebff;
+  font-size: 2.6rem;
+  color: #fff;
   text-shadow: -2px 0 #666181, 0 2px #666181, 2px 0 #666181, 0 -2px #666181;
 }
 
 .poket-type {
-  margin: 10px 0 10px;
-  font-size: 14px;
+  margin: auto 0 0;
+  font-size: 1.4rem;
+  display: flex;
+  gap: 0.6rem;
 }
 
 .poket-type span {
-  display: inline-block;
+  font-size: 1.5rem;
+  width: 100%;
   background: #e997ac;
-  padding: 0 .6em .2em;
+  padding: 0 0.6em .2em;
+  line-height: 1.6;
   border-radius: .6em;
+  color: #efefef;
 }
 
+.poket-type .normal {
+  background: #aaa;
+  box-shadow: 0px 4px 0 #868484;
+}
+
+.poket-type .poison {
+  background: #9c7fbc;
+  box-shadow: 0px 4px 0 #7d6797;
+}
+
+.poket-type .fire {
+  background: #e6855f;
+  box-shadow: 0px 4px 0 #c3775a;
+}
+
+.poket-type .flying {
+  background: #87afdc;
+  box-shadow: 0px 4px 0 #779ac2;
+}
+
+.poket-type .water {
+  background: #5185c5;
+  box-shadow: 0px 4px 0 #4d6e96;
+}
+
+.poket-type .bug {
+  background: #a0a244;
+  box-shadow: 0px 4px 0 #7c7e35;
+}
+
+.poket-type .grass {
+  background: #8ab873;
+  box-shadow: 0px 4px 0 #658953;
+}
+
+.poket-type .electric {
+  background: #f7dc64;
+  box-shadow: 0px 4px 0 #cfb542;
+  color: #666;
+}
+
+.poket-type .ground {
+  background: #9c7743;
+  box-shadow: 0px 4px 0 #7a5a2d;
+}
+
+.poket-type .fairy {
+  background: #dda5d4;
+  box-shadow: 0px 4px 0 #b38bad;
+}
+
+.poket-type .psychic {
+  background: #de6b7a;
+  box-shadow: 0px 4px 0 #b05b66;
+}
+
+.poket-type .ice {
+  background: #6cc8eb;
+  box-shadow: 0px 4px 0 #57aed0;
+}
+
+.poket-type .steel {
+  background: #6aa9c7;
+  box-shadow: 0px 4px 0 #5e899e;
+}
+
+.poket-type .rock {
+  background: #bfb889;
+  box-shadow: 0px 4px 0 #a0996a;
+}
+
+.poket-type .dark {
+  background: #666;
+  box-shadow: 0px 4px 0 #474646;
+}
+
+.poket-type .ghost {
+  background: #684870;
+  box-shadow: 0px 4px 0 #4c3152;
+}
+
+.poket-type .fighting {
+  background: #e09c41;
+  box-shadow: 0px 4px 0 #c68732;
+}
+
+
 .poket-img {
-  aspect-ratio: 1/1;
-  width: 50%;
+  aspect-ratio: 1/.6;
+  width: 100%;
   object-fit: scale-down;
+}
+
+.more-btn {
+  all: unset;
+  display: inline-block;
+  font-size: 2.8rem;
+  background: #e4728d;
+  padding: 0 2em 0.2em;
+  border-radius: 0.4em;
+  border: 3px solid #9e5768;
+  box-shadow: 0px 6px 0 #892d4b;
+  line-height: 1.6;
+  position: absolute;
+  bottom: -1.2em;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 9px;
+  }
+
+  body {
+    padding: 6rem 1.5rem;
+  }
+
+  .card-inner {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
 }
