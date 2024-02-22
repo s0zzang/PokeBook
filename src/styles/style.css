@@ -12,25 +12,32 @@
 
 body {
   padding: 6rem 5rem;
-  background: #7571aa;
+  /* background: #7571aa;
+  background: #e4728d; */
+  background: #7abbd5;
 }
 
 h1 {
   font-family: 'Galmuri7', sans-serif;
-  color: #ffdf9b;
-  text-shadow: -5px 0 #71678a, 0 5px #71678a, 5px 0 #71678a, 0 -5px #71678a;
+  /* color: #ffdf9b; */
+  color: #f9dc42;
+  /* text-shadow: -5px 0 #71678a, 0 5px #71678a, 5px 0 #71678a, 0 -5px #71678a; */
+  text-shadow: -6px 0 #3361a8, 0 6px #3361a8, 6px 0 #3361a8, 0 -6px #3361a8;
   font-size: 6rem;
   margin-top: -1.4em;
   letter-spacing: -0.6px;
   margin-bottom: 0.2em;
+  white-space: nowrap;
 }
 
 .card-list {
   max-width: 1280px;
   margin: 0 auto;
   text-align: center;
-  background: #b5b1e8;
-  border: .4rem solid #333847;
+  /* background: #b5b1e8; */
+  background: #a4cf8d;
+  /* border: .4rem solid #333847; */
+  border: .4rem solid #efefef;
   border-radius: 2rem;
   padding: 4rem 2rem;
   position: relative;
@@ -39,19 +46,21 @@ h1 {
 .card-inner {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .poket-card {
-  background: #d1cefd;
-  border: .4rem solid #eae2ff;
+  /* background: #d1cefd; */
+  background: #fff;
+  /* border: .4rem solid #e4728d; */
+  /* border: .4rem solid #999; */
   border-radius: 1.5rem;
-  padding: 2rem 1rem 1rem;
+  padding: 2rem;
   position: relative;
-  aspect-ratio: 1/1;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
 
 }
 
@@ -166,9 +175,10 @@ h1 {
 
 
 .poket-img {
-  aspect-ratio: 1/.6;
+  aspect-ratio: 1/.5;
   width: 100%;
   object-fit: scale-down;
+  margin: 1rem 0;
 }
 
 .more-btn {
@@ -180,12 +190,17 @@ h1 {
   border-radius: 0.4em;
   border: 3px solid #9e5768;
   box-shadow: 0px 6px 0 #892d4b;
-  line-height: 1.6;
+  line-height: 1.4;
+  width: 60vw;
   position: absolute;
   bottom: -1.2em;
   left: 50%;
   transform: translateX(-50%);
   cursor: pointer;
+
+  /* background: #fa3d33;
+  border: 3px solid #88302b;
+  box-shadow: 0px 6px 0 #b0241d; */
 }
 
 @media (max-width: 768px) {
