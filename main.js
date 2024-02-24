@@ -13,28 +13,24 @@ const renderPoketList = async (END_POINT, type = null) => {
     const data = await response.json();
     next_point = data.next;
 
-    await Promise.all(
-      data.results.map(async (poket) => {
-        const responseEn = await fetch(poket.url);
-        if (responseEn.ok) {
-          const resultEn = await responseEn.json();
-
-          const responseKo = (async () => {
-            const response = await fetch(resultEn.species.url);
-            const resultKo = await response.json();
-            renderPoketCard(resultKo.names[2].name, resultEn);
-          })();
-        }
-      })
-    );
+    for (const result of data.results) {
+      const responseEn = await fetch(result.url);
+      const resultEn = await responseEn.json();
+      const responseKo = (async () => {
+        const response = await fetch(resultEn.species.url);
+        const resultKo = await response.json();
+        renderPoketCard(resultEn, resultKo.names[2].name);
+        console.log(resultEn, resultKo);
+      })();
+    }
   }
 };
 
-function renderPoketCard(name, data) {
-  $cardInner.insertAdjacentHTML('beforeend', createPoketCard(name, data));
+function renderPoketCard(data, name) {
+  $cardInner.insertAdjacentHTML('beforeend', createPoketCard(data, name));
 }
 
-function createPoketCard(name, { id, types, sprites }) {
+function createPoketCard({ id, types, sprites }, name) {
   let typeSpans = '';
   types.forEach(({ type }) => {
     typeSpans += `<span class="${type.name}">${type.name}</span>`;
@@ -71,38 +67,32 @@ const handleSelect = async (e) => {
   // );
 };
 
-// responseKo : genera[1] | ['flavor_text_entries'][23], [31]
-// info : id | height |
-
 const handleCardClick = (e) => {
   const target = e.target.closest('.poket-card');
   if (!target) return;
   const idx = target.dataset.index;
-  const name = target.querySelector('.poket-name').textContent;
-  const img = target.querySelector('.poket-img').src;
-  const data = { idx, name, img };
 
-  renderPoketDetail(data);
   $popup.classList.add('is-active');
+  renderPoketDetail(idx);
 };
 
-async function renderPoketDetail(data) {
-  const responseEn = await fetch(`${END_POINT}/${data.idx}`);
+async function renderPoketDetail(idx) {
+  const responseEn = await fetch(`${END_POINT}/${idx}`);
   if (responseEn.ok) {
     const resultEn = await responseEn.json();
     const responseKo = await fetch(resultEn.species.url);
     const resultKo = await responseKo.json();
-    console.log(resultEn, resultKo);
+    // console.log(resultEn, resultKo);
 
     $popup.textContent = '';
     $popup.insertAdjacentHTML(
       'beforeend',
-      createPoketDetail(data, resultEn, resultKo)
+      createPoketDetail(resultEn, resultKo)
     );
   }
 }
 
-function createPoketDetail({ idx, name, img }, en, ko) {
+function createPoketDetail({ id, height, weight, sprites }, ko) {
   let flavorTemplate = '';
   ko['flavor_text_entries'].forEach((text) => {
     if (text.language.name === 'ko' && text.version.name == 'y') {
@@ -115,36 +105,50 @@ function createPoketDetail({ idx, name, img }, en, ko) {
     // }
   });
   const modifiedIdx =
-    idx < 10
-      ? `000${idx}`
-      : idx < 100
-        ? `00${idx}`
-        : idx < 1000
-          ? `0${idx}`
-          : idx;
+    id < 10 ? `000${id}` : id < 100 ? `00${id}` : id < 1000 ? `0${id}` : id;
   return `
-    <div class="popup-inner">
-      <h3 class="name"><span>#${modifiedIdx}</span> ${name}</h3>
+    <div class="popup-inner" data-id="${id}">
+      <h3 class="name"><span>#${modifiedIdx}</span> ${ko.names[2].name}</h3>
       <div class="info">
-        <p class="height"><span>키</span> ${Math.round(en.height * 10) / 100}m</p>
-        <p class="weight"><span>무게</span> ${Math.round(en.weight * 10) / 100}kg</p>
         <p class="kind"><span>분류</span> ${ko.genera[1].genus}</p>
+        <p class="height"><span>키</span> ${Math.round(height * 10) / 100}m</p>
+        <p class="weight"><span>무게</span> ${Math.round(weight * 10) / 100}kg</p>
       </div>
       <p class="desc">${flavorTemplate}</p>
-      <img src="${img}" alt="${name}"/>
-      <button type="button" class="popup-close"><span>닫기</span></button>
+      <img src="${sprites.other.showdown['front_default']}" alt="${ko.names[2].name}"/>
+      <button type="button" class="btn popup-close"><span>닫기</span></button>
+      <div class="pagination">
+        <button type="button" class="btn btn-prev"><span>이전으로</span></button>
+        <button type="button" class="btn btn-next"><span>다음으로</span></button>
+      </div>
     </div>
   `;
 }
 
 const handlePopupClick = (e) => {
   const target = e.target;
+  const id = target.closest('.popup-inner')?.dataset.id;
+
   if (
     target.classList.contains('popup') ||
     target.classList.contains('popup-close')
   )
-    $popup.classList.remove('is-active');
+    handlePopupClose($popup);
+
+  if (target.classList.contains('btn')) {
+    handlePopupNavi(target, id);
+  }
 };
+
+function handlePopupClose(node) {
+  node.classList.remove('is-active');
+}
+
+function handlePopupNavi(node, idx) {
+  node.classList.contains('btn-prev')
+    ? renderPoketDetail(+idx - 1)
+    : renderPoketDetail(+idx + 1);
+}
 
 renderPoketList(END_POINT);
 $moreBtn.addEventListener('click', handleMore);
