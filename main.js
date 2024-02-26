@@ -75,13 +75,9 @@ const handleCardClick = (e) => {
 };
 
 async function renderPoketDetail(idx) {
-  try {
-    const { dataEn, dataKo } = await fetchData(`${END_POINT}/${idx}`);
-    $popup.textContent = '';
-    $popup.insertAdjacentHTML('beforeend', createPoketDetail(dataEn, dataKo));
-  } catch (error) {
-    console.error('Error fetching data', error);
-  }
+  const { dataEn, dataKo } = await fetchData(`${END_POINT}/${idx}`);
+  $popup.textContent = '';
+  $popup.insertAdjacentHTML('beforeend', createPoketDetail(dataEn, dataKo));
 }
 
 function createPoketDetail({ id, height, weight, sprites }, ko) {
@@ -90,11 +86,6 @@ function createPoketDetail({ id, height, weight, sprites }, ko) {
     if (text.language.name === 'ko' && text.version.name == 'y') {
       flavorTemplate += text['flavor_text'];
     }
-    // if (text.language.name === 'ko') {
-    //   flavorTemplate += `
-    //     <li><span>${text.version.name}</span>${text['flavor_text']}</li>
-    //   `;
-    // }
   });
   const modifiedIdx =
     id < 10 ? `000${id}` : id < 100 ? `00${id}` : id < 1000 ? `0${id}` : id;
@@ -125,14 +116,10 @@ const handlePopupClick = (e) => {
     target.classList.contains('popup') ||
     target.classList.contains('popup-close')
   )
-    handlePopupClose($popup);
+    $popup.classList.remove('is-active');
 
   if (target.classList.contains('btn')) handlePopupNavi(target, id);
 };
-
-function handlePopupClose(node) {
-  node.classList.remove('is-active');
-}
 
 function handlePopupNavi(node, idx) {
   node.classList.contains('btn-prev')
