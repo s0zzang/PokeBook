@@ -1,4 +1,5 @@
 import '/src/styles/style.css';
+import { fetchData } from '/src/lib';
 
 const END_POINT = `https://pokeapi.co/api/v2/pokemon`;
 let next_point = ``;
@@ -8,26 +9,23 @@ const $moreBtn = document.querySelector('.more-btn');
 const $popup = document.querySelector('.popup');
 
 const renderPoketList = async (END_POINT, type = null) => {
-  const response = await fetch(END_POINT);
-  if (response.ok) {
+  try {
+    const response = await fetch(END_POINT);
+    if (!response.ok) throw new Error(`${END_POINT} 통신이 실패했습니다.`);
     const data = await response.json();
     next_point = data.next;
 
     for (const result of data.results) {
-      const responseEn = await fetch(result.url);
-      const resultEn = await responseEn.json();
-      const responseKo = (async () => {
-        const response = await fetch(resultEn.species.url);
-        const resultKo = await response.json();
-        renderPoketCard(resultEn, resultKo.names[2].name);
-        console.log(resultEn, resultKo);
-      })();
+      const { dataEn, dataKo } = await fetchData(result.url);
+      renderPoketCard(dataEn, dataKo.names[2].name);
     }
+  } catch (error) {
+    console.error('Error fetching data', error);
   }
 };
 
-function renderPoketCard(data, name) {
-  $cardInner.insertAdjacentHTML('beforeend', createPoketCard(data, name));
+function renderPoketCard(en, ko) {
+  $cardInner.insertAdjacentHTML('beforeend', createPoketCard(en, ko));
 }
 
 function createPoketCard({ id, types, sprites }, name) {
@@ -77,18 +75,12 @@ const handleCardClick = (e) => {
 };
 
 async function renderPoketDetail(idx) {
-  const responseEn = await fetch(`${END_POINT}/${idx}`);
-  if (responseEn.ok) {
-    const resultEn = await responseEn.json();
-    const responseKo = await fetch(resultEn.species.url);
-    const resultKo = await responseKo.json();
-    // console.log(resultEn, resultKo);
-
+  try {
+    const { dataEn, dataKo } = await fetchData(`${END_POINT}/${idx}`);
     $popup.textContent = '';
-    $popup.insertAdjacentHTML(
-      'beforeend',
-      createPoketDetail(resultEn, resultKo)
-    );
+    $popup.insertAdjacentHTML('beforeend', createPoketDetail(dataEn, dataKo));
+  } catch (error) {
+    console.error('Error fetching data', error);
   }
 }
 
@@ -135,9 +127,7 @@ const handlePopupClick = (e) => {
   )
     handlePopupClose($popup);
 
-  if (target.classList.contains('btn')) {
-    handlePopupNavi(target, id);
-  }
+  if (target.classList.contains('btn')) handlePopupNavi(target, id);
 };
 
 function handlePopupClose(node) {
