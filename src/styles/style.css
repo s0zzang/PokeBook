@@ -276,6 +276,7 @@ h1 {
   pointer-events: none;
   margin-top: auto;
   transform: scale(1.2);
+  max-width: 17rem;
 }
 
 .popup .btn {

@@ -1,7 +1,7 @@
 // node.js 환경
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-const env = process.env.NODE_ENv; // 빌드 환경인지, 개바환경인지
+const env = process.env.NODE_ENv;
 
 const viteConfig = defineConfig({
   server: {
