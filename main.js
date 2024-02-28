@@ -4,6 +4,7 @@ import { fetchData, showLoading } from '/src/lib';
 let next_point = ``;
 const END_POINT = `https://pokeapi.co/api/v2/pokemon`;
 const $cardInner = document.querySelector('.card-inner');
+const $top = document.querySelector('#totop');
 const $type = document.querySelector('#type');
 const $moreBtn = document.querySelector('.more-btn');
 const $popup = document.querySelector('.popup');
@@ -50,6 +51,8 @@ function createPoketCard({ id, types, sprites }, { name }) {
 }
 
 const handleMore = () => renderPoketList(next_point);
+
+const handleTop = () => window.scroll({ top: 0, behavior: 'smooth' });
 
 const handleSelect = async (e) => {
   const selected = e.target.value;
@@ -138,6 +141,7 @@ function handlePopupNavi(node, idx) {
 
 renderPoketList(END_POINT);
 $moreBtn.addEventListener('click', handleMore);
+$top.addEventListener('click', handleTop);
 $type.addEventListener('input', handleSelect);
 $cardInner.addEventListener('click', handleCardClick);
 $popup.addEventListener('click', handlePopupClick);

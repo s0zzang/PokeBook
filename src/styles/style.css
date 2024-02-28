@@ -148,6 +148,7 @@ h1 {
   font-size: 1.7rem;
   width: 100%;
   background: #e997ac;
+  box-shadow: 0 4px 0 #cb6e86;
   padding: 0 0.6em .2em;
   line-height: 1.6;
   border-radius: .6em;
