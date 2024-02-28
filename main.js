@@ -1,8 +1,8 @@
 import '/src/styles/style.css';
-import { fetchData } from '/src/lib';
+import { fetchData, showLoading } from '/src/lib';
 
-const END_POINT = `https://pokeapi.co/api/v2/pokemon`;
 let next_point = ``;
+const END_POINT = `https://pokeapi.co/api/v2/pokemon`;
 const $cardInner = document.querySelector('.card-inner');
 const $type = document.querySelector('#type');
 const $moreBtn = document.querySelector('.more-btn');
@@ -15,8 +15,12 @@ const renderPoketList = async (END_POINT) => {
     const data = await response.json();
     next_point = data.next;
 
-    for (const result of data.results) {
-      const { dataEn, dataKo } = await fetchData(result.url);
+    showLoading(2000);
+    const datas = await Promise.all(
+      data.results.map((item) => fetchData(item.url))
+    );
+    for (const data of datas) {
+      const { dataEn, dataKo } = data;
       renderPoketCard(dataEn, dataKo);
     }
   } catch (error) {
@@ -33,9 +37,9 @@ function createPoketCard({ id, types, sprites }, { name }) {
   types.forEach(({ type }) => {
     typeSpans += `<span class="${type.name}">${type.name}</span>`;
   });
-  const img = !sprites.other.showdown['front_default']
-    ? sprites.other['official-artwork']['front_default']
-    : sprites.other.showdown['front_default'];
+  const img =
+    sprites.other.showdown['front_default'] ||
+    sprites.other['official-artwork']['front_default'];
   return `
     <article class="poket-card" data-index="${id}">
       <h2 class="poket-name">${name}</h2>
@@ -51,19 +55,22 @@ const handleSelect = async (e) => {
   const selected = e.target.value;
   $cardInner.textContent = '';
 
+  showLoading(2000);
   if (selected === '0') {
     $moreBtn.style.display = 'block';
     renderPoketList(END_POINT);
-  } else {
-    $moreBtn.style.display = 'none';
-    const response = await fetch(`https://pokeapi.co/api/v2/type/${selected}`);
-    if (!response.ok) throw new Error(`${END_POINT} 통신이 실패했습니다.`);
-    const data = await response.json();
-
-    for (const result of data.pokemon) {
-      const { dataEn, dataKo } = await fetchData(result.pokemon.url);
-      renderPoketCard(dataEn, dataKo);
-    }
+    return;
+  }
+  $moreBtn.style.display = 'none';
+  const response = await fetch(`https://pokeapi.co/api/v2/type/${selected}`);
+  if (!response.ok) throw new Error(`${END_POINT} 통신이 실패했습니다.`);
+  const data = await response.json();
+  const datas = await Promise.all(
+    data.pokemon.map((pokemon) => fetchData(pokemon.pokemon.url))
+  );
+  for (const data of datas) {
+    const { dataEn, dataKo } = data;
+    renderPoketCard(dataEn, dataKo);
   }
 };
 
@@ -86,12 +93,11 @@ function createPoketDetail(
   { id, height, weight, sprites },
   { name, genera, flavor }
 ) {
-  const img = !sprites.other.showdown['front_default']
-    ? sprites.other['official-artwork']['front_default']
-    : sprites.other.showdown['front_default'];
+  const img =
+    sprites.other.showdown['front_default'] ||
+    sprites.other['official-artwork']['front_default'];
   const modifiedIdx =
     id < 10 ? `000${id}` : id < 100 ? `00${id}` : id < 1000 ? `0${id}` : id;
-
   return `
     <div class="popup-inner" data-id="${id}">
       <h3 class="name"><span>#${modifiedIdx}</span> ${name}</h3>
