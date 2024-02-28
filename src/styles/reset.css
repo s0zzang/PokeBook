@@ -47,3 +47,7 @@ select {
   text-align: center;
   cursor: pointer;
 }
+
+select:focus-visible {
+  outline-color: #f9dc42;
+}
