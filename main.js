@@ -50,20 +50,21 @@ function createPoketCard({ id, types, sprites }, { name }) {
   `;
 }
 
-const handleMore = () => renderPoketList(next_point);
-
 const handleTop = () => window.scroll({ top: 0, behavior: 'smooth' });
+
+const handleMore = () => renderPoketList(next_point);
 
 const handleSelect = async (e) => {
   const selected = e.target.value;
   $cardInner.textContent = '';
-
   showLoading(2000);
+
   if (selected === '0') {
     $moreBtn.style.display = 'block';
     renderPoketList(END_POINT);
     return;
   }
+
   $moreBtn.style.display = 'none';
   const response = await fetch(`https://pokeapi.co/api/v2/type/${selected}`);
   if (!response.ok) throw new Error(`${END_POINT} 통신이 실패했습니다.`);
