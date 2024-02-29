@@ -31,7 +31,6 @@ body {
   color: #fff;
   background: #e35757;
   box-shadow: 0 6px 0 #bf4343;
-  /* outline: 2px solid #f9dc42; */
   border-radius: 0.4em;
   padding: .4em .6em;
   line-height: 1.4;
@@ -93,10 +92,9 @@ body {
 h1 {
   font-family: 'Galmuri7', sans-serif;
   color: #f9dc42;
-  text-shadow: -6px 0 #3361a8, 0 6px #3361a8, 6px 0 #3361a8, 0 -6px #3361a8;
+  text-shadow: -.6rem 0 #3361a8, 0 .6rem #3361a8, .6rem 0 #3361a8, 0 -.6rem #3361a8;
   font-size: 6rem;
 }
-
 
 .card-list {
   max-width: 1280px;
@@ -149,7 +147,7 @@ h1 {
   width: 100%;
   background: #e997ac;
   box-shadow: 0 4px 0 #cb6e86;
-  padding: 0 0.6em .2em;
+  padding: 0.2em 0.6em;
   line-height: 1.6;
   border-radius: .6em;
   color: var(--color-white);
@@ -341,10 +339,7 @@ h1 {
 .popup img {
   pointer-events: none;
   margin-top: auto;
-  transform: scale(1.2);
-  max-width: 17rem;
-  aspect-ratio: 1 / 1;
-  object-fit: scale-down;
+  max-height: 18rem;
 }
 
 .popup .btn {
@@ -435,8 +430,13 @@ h1 {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 
+  .popup {
+    height: 80%;
+    max-height: 46rem;
+  }
+
   .popup-inner {
-    padding: 5rem 3rem 3rem;
+    padding: 4rem 3rem 3rem;
   }
 
   .popup .btn {
@@ -450,7 +450,7 @@ h1 {
   }
 
   .popup .info {
-    gap: 1rem;
+    gap: 1.4rem;
     padding: 1.2rem 0 1.4rem;
   }
 
@@ -461,7 +461,6 @@ h1 {
 
   .popup .desc {
     padding: 0 3rem;
-    font-size: 1.5rem;
   }
 
   .popup .pagination {
