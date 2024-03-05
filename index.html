@@ -24,46 +24,48 @@
     <script type="module" src="/main.js"></script>
   </head>
   <body>
-    <div class="floating">
-      <button id="totop" type="button">top</button>
-      <select name="type" id="type" class="card-type">
-        <option value="0">type</option>
-        <option value="1">노말</option>
-        <option value="2">격투</option>
-        <option value="3">비행</option>
-        <option value="4">독</option>
-        <option value="5">땅</option>
-        <option value="6">바위</option>
-        <option value="7">벌레</option>
-        <option value="8">고스트</option>
-        <option value="9">강철</option>
-        <option value="10">불꽃</option>
-        <option value="11">물</option>
-        <option value="12">풀</option>
-        <option value="13">전기</option>
-        <option value="14">에스퍼</option>
-        <option value="15">얼음</option>
-        <option value="16">드래곤</option>
-        <option value="17">악</option>
-        <option value="18">페어리</option>
-      </select>
-    </div>
-    <div class="card-list">
-      <div class="card-title">
-        <h1>포켓몬 도감</h1>
+    <div id="app">
+      <div class="floating">
+        <button id="totop" type="button">top</button>
+        <select name="type" id="type" class="card-type">
+          <option value="0">type</option>
+          <option value="1">노말</option>
+          <option value="2">격투</option>
+          <option value="3">비행</option>
+          <option value="4">독</option>
+          <option value="5">땅</option>
+          <option value="6">바위</option>
+          <option value="7">벌레</option>
+          <option value="8">고스트</option>
+          <option value="9">강철</option>
+          <option value="10">불꽃</option>
+          <option value="11">물</option>
+          <option value="12">풀</option>
+          <option value="13">전기</option>
+          <option value="14">에스퍼</option>
+          <option value="15">얼음</option>
+          <option value="16">드래곤</option>
+          <option value="17">악</option>
+          <option value="18">페어리</option>
+        </select>
       </div>
-      <div class="card-inner"></div>
-      <button class="more-btn">more</button>
-    </div>
-    <div class="popup"></div>
-    <div class="loading">
-      <img src="" alt="랜덤 포켓몬" />
-      <p>
-        로딩중
-        <span>.</span>
-        <span>.</span>
-        <span>.</span>
-      </p>
+      <section class="card-list">
+        <div class="card-title">
+          <h1>포켓몬 도감</h1>
+        </div>
+        <ul class="card-inner"></ul>
+        <button class="more-btn">more</button>
+      </section>
+      <div class="popup"></div>
+      <div class="loading">
+        <img src="" alt="랜덤 포켓몬" />
+        <p>
+          로딩중
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </p>
+      </div>
     </div>
   </body>
 </html>

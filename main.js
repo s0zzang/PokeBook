@@ -43,11 +43,11 @@ function createPoketCard({ id, types, sprites }, { name }) {
     sprites.other.showdown['front_default'] ||
     sprites.other['official-artwork']['front_default'];
   return `
-    <article class="poket-card" data-index="${id}">
+    <li class="poket-card" data-index="${id}">
       <h2 class="poket-name">${name}</h2>
       <img class="poket-img" src="${img}" alt="${name}"/>
       <p class="poket-type">${typeSpans}</p>
-    </article>
+    </li>
   `;
 }
 
