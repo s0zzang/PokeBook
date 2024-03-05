@@ -12,7 +12,7 @@ const $popup = document.querySelector('.popup');
 const renderPoketList = async (END_POINT) => {
   try {
     const response = await fetch(END_POINT);
-    if (!response.ok) throw new Error(`${END_POINT} 통신이 실패했습니다.`);
+    if (!response.ok) throw new Error(`데이터 통신에 실패했습니다.`);
     const data = await response.json();
     next_point = data.next;
 
@@ -42,6 +42,7 @@ function createPoketCard({ id, types, sprites }, { name }) {
   const img =
     sprites.other.showdown['front_default'] ||
     sprites.other['official-artwork']['front_default'];
+
   return `
     <li class="poket-card" data-index="${id}">
       <h2 class="poket-name">${name}</h2>
@@ -50,34 +51,6 @@ function createPoketCard({ id, types, sprites }, { name }) {
     </li>
   `;
 }
-
-const handleTop = () => window.scroll({ top: 0, behavior: 'smooth' });
-
-const handleMore = () => renderPoketList(next_point);
-
-const handleSelect = async (e) => {
-  const selected = e.target.value;
-  $cardInner.textContent = '';
-  showLoading(3000);
-
-  if (selected === '0') {
-    $moreBtn.style.display = 'block';
-    renderPoketList(END_POINT);
-    return;
-  }
-
-  $moreBtn.style.display = 'none';
-  const response = await fetch(`${VITE_END_POINT_TYPE}/${selected}`);
-  if (!response.ok) throw new Error(`타입별 데이터 통신에 실패했습니다.`);
-  const data = await response.json();
-  const datas = await Promise.all(
-    data.pokemon.map((pokemon) => fetchData(pokemon.pokemon.url))
-  );
-  for (const data of datas) {
-    const { dataEn, dataKo } = data;
-    renderPoketCard(dataEn, dataKo);
-  }
-};
 
 const handleCardClick = (e) => {
   const target = e.target.closest('.poket-card');
@@ -141,6 +114,37 @@ function handlePopupNavi(node, idx) {
   node.classList.contains('btn-prev')
     ? renderPoketDetail(+idx - 1)
     : renderPoketDetail(+idx + 1);
+}
+
+const handleTop = () => window.scroll({ top: 0, behavior: 'smooth' });
+
+const handleMore = () => renderPoketList(next_point);
+
+const handleSelect = async (e) => {
+  const selected = e.target.value;
+  if (selected === 'all') return selectedViewAll(e.target, true);
+
+  selectedViewAll(e.target, false);
+  const response = await fetch(`${VITE_END_POINT_TYPE}/${selected}`);
+  if (!response.ok) throw new Error(`타입별 데이터 통신에 실패했습니다.`);
+  const data = await response.json();
+  const datas = await Promise.all(
+    data.pokemon.map((pokemon) => fetchData(pokemon.pokemon.url))
+  );
+  for (const data of datas) {
+    const { dataEn, dataKo } = data;
+    renderPoketCard(dataEn, dataKo);
+  }
+};
+
+function selectedViewAll(target, isViewAll) {
+  const $optionViewAll = target.children[0];
+  $cardInner.textContent = '';
+  showLoading(3000);
+
+  $optionViewAll.textContent = isViewAll ? 'type' : '전체';
+  $moreBtn.style.display = isViewAll ? 'block' : 'none';
+  isViewAll && renderPoketList(VITE_END_POINT_POKEMON);
 }
 
 renderPoketList(VITE_END_POINT_POKEMON);
