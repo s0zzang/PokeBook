@@ -261,7 +261,7 @@ h1 {
   transform: translateX(-50%) scale(1.02);
 }
 
-.popup {
+.popup-wrap {
   position: fixed;
   inset: 1.5rem;
   width: calc(100% - 3rem);
@@ -278,9 +278,10 @@ h1 {
   opacity: 0;
   visibility: hidden;
   transition: var(--transition-duration) opacity;
+  background: url(/popup-bg.jpg) no-repeat bottom center / cover;
 }
 
-.popup::before {
+.popup-wrap::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -288,12 +289,12 @@ h1 {
   background: rgba(0, 0, 0, 0.4);
 }
 
-.popup.is-active {
+.popup-wrap.is-active {
   opacity: 1;
   visibility: visible;
 }
 
-.popup-inner {
+.popup {
   padding: 5rem 7rem;
   display: flex;
   flex-direction: column;

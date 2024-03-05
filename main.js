@@ -7,7 +7,7 @@ const $cardInner = document.querySelector('.card-inner');
 const $toTopBtn = document.querySelector('#totop');
 const $typeSelect = document.querySelector('#type');
 const $moreBtn = document.querySelector('.more-btn');
-const $popup = document.querySelector('.popup');
+const $popupWrap = document.querySelector('.popup-wrap');
 
 const renderPoketList = async (END_POINT) => {
   try {
@@ -57,7 +57,7 @@ const handleCardClick = (e) => {
   if (!target) return;
   const idx = target.dataset.index;
 
-  $popup.classList.add('is-active');
+  $popupWrap.classList.add('is-active');
   renderPoketDetail(idx);
 };
 
@@ -65,8 +65,8 @@ async function renderPoketDetail(idx) {
   const { dataEn, dataKo } = await fetchData(
     `${VITE_END_POINT_POKEMON}/${idx}`
   );
-  $popup.textContent = '';
-  $popup.insertAdjacentHTML('beforeend', createPoketDetail(dataEn, dataKo));
+  $popupWrap.textContent = '';
+  $popupWrap.insertAdjacentHTML('beforeend', createPoketDetail(dataEn, dataKo));
 }
 
 function createPoketDetail(
@@ -79,7 +79,7 @@ function createPoketDetail(
   const modifyIdDigit =
     id < 10 ? `000${id}` : id < 100 ? `00${id}` : id < 1000 ? `0${id}` : id;
   return `
-    <div class="popup-inner" data-id="${id}">
+    <div class="popup" data-id="${id}">
       <h3 class="name"><span>#${modifyIdDigit}</span> ${name}</h3>
       <div class="info">
         ${genera ? `<p class="kind"><span>분류</span> ${genera}</p>` : ''}
@@ -99,17 +99,21 @@ function createPoketDetail(
 
 const handlePopupClick = (e) => {
   const target = e.target;
-  const id = target.closest('.popup-inner')?.dataset.id;
+  const id = target.closest('.popup')?.dataset.id;
 
   if (
-    target.classList.contains('popup') ||
+    target.classList.contains('popup-wrap') ||
     target.classList.contains('popup-close')
   )
-    $popup.classList.remove('is-active');
+    return handlePopupClose();
 
   if (target.classList.contains('btn')) handlePopupNavi(target, id);
 };
 
+function handlePopupClose() {
+  $popupWrap.textContent = '';
+  $popupWrap.classList.remove('is-active');
+}
 function handlePopupNavi(node, idx) {
   node.classList.contains('btn-prev')
     ? renderPoketDetail(+idx - 1)
@@ -152,4 +156,4 @@ $moreBtn.addEventListener('click', handleMore);
 $toTopBtn.addEventListener('click', handleTop);
 $typeSelect.addEventListener('input', handleSelect);
 $cardInner.addEventListener('click', handleCardClick);
-$popup.addEventListener('click', handlePopupClick);
+$popupWrap.addEventListener('click', handlePopupClick);
