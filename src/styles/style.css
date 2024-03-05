@@ -59,14 +59,7 @@ body {
   justify-content: center;
   gap: 1.6rem;
   font-size: 1.7rem;
-  opacity: 0;
-  visibility: hidden;
   transition: var(--transition-duration) opacity;
-}
-
-.loading.is-active {
-  opacity: 1;
-  visibility: visible;
 }
 
 .loading p {
