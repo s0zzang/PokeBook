@@ -122,9 +122,9 @@ const handleMore = () => renderPoketList(next_point);
 
 const handleSelect = async (e) => {
   const selected = e.target.value;
-  if (selected === 'all') return selectedViewAll(e.target, true);
+  if (selected === 'all') return selectedView(e.target, true);
 
-  selectedViewAll(e.target, false);
+  selectedView(e.target, false);
   const response = await fetch(`${VITE_END_POINT_TYPE}/${selected}`);
   if (!response.ok) throw new Error(`타입별 데이터 통신에 실패했습니다.`);
   const data = await response.json();
@@ -137,7 +137,7 @@ const handleSelect = async (e) => {
   }
 };
 
-function selectedViewAll(target, isViewAll) {
+function selectedView(target, isViewAll) {
   const $optionViewAll = target.children[0];
   $cardInner.textContent = '';
   showLoading(3000);
