@@ -2,10 +2,10 @@ import '/src/styles/style.css';
 import { fetchData, showLoading } from '/src/lib';
 
 let next_point = ``;
-const END_POINT = `https://pokeapi.co/api/v2/pokemon`;
+const { VITE_END_POINT_POKEMON, VITE_END_POINT_TYPE } = import.meta.env;
 const $cardInner = document.querySelector('.card-inner');
-const $top = document.querySelector('#totop');
-const $type = document.querySelector('#type');
+const $toTopBtn = document.querySelector('#totop');
+const $typeSelect = document.querySelector('#type');
 const $moreBtn = document.querySelector('.more-btn');
 const $popup = document.querySelector('.popup');
 
@@ -58,7 +58,7 @@ const handleMore = () => renderPoketList(next_point);
 const handleSelect = async (e) => {
   const selected = e.target.value;
   $cardInner.textContent = '';
-  showLoading(2000);
+  showLoading(3000);
 
   if (selected === '0') {
     $moreBtn.style.display = 'block';
@@ -67,8 +67,8 @@ const handleSelect = async (e) => {
   }
 
   $moreBtn.style.display = 'none';
-  const response = await fetch(`https://pokeapi.co/api/v2/type/${selected}`);
-  if (!response.ok) throw new Error(`${END_POINT} 통신이 실패했습니다.`);
+  const response = await fetch(`${VITE_END_POINT_TYPE}/${selected}`);
+  if (!response.ok) throw new Error(`타입별 데이터 통신에 실패했습니다.`);
   const data = await response.json();
   const datas = await Promise.all(
     data.pokemon.map((pokemon) => fetchData(pokemon.pokemon.url))
@@ -89,7 +89,9 @@ const handleCardClick = (e) => {
 };
 
 async function renderPoketDetail(idx) {
-  const { dataEn, dataKo } = await fetchData(`${END_POINT}/${idx}`);
+  const { dataEn, dataKo } = await fetchData(
+    `${VITE_END_POINT_POKEMON}/${idx}`
+  );
   $popup.textContent = '';
   $popup.insertAdjacentHTML('beforeend', createPoketDetail(dataEn, dataKo));
 }
@@ -141,9 +143,9 @@ function handlePopupNavi(node, idx) {
     : renderPoketDetail(+idx + 1);
 }
 
-renderPoketList(END_POINT);
+renderPoketList(VITE_END_POINT_POKEMON);
 $moreBtn.addEventListener('click', handleMore);
-$top.addEventListener('click', handleTop);
-$type.addEventListener('input', handleSelect);
+$toTopBtn.addEventListener('click', handleTop);
+$typeSelect.addEventListener('input', handleSelect);
 $cardInner.addEventListener('click', handleCardClick);
 $popup.addEventListener('click', handlePopupClick);
