@@ -35,9 +35,10 @@ function renderPoketCard(en, ko) {
 
 function createPoketCard({ id, types, sprites }, { name }) {
   let typeSpans = '';
-  types.forEach(({ type }) => {
-    typeSpans += `<span class="${type.name}">${type.name}</span>`;
-  });
+  types.forEach(
+    ({ type }) =>
+      (typeSpans += `<span class="${type.name}">${type.name}</span>`)
+  );
   const img =
     sprites.other.showdown['front_default'] ||
     sprites.other['official-artwork']['front_default'];
@@ -100,11 +101,11 @@ function createPoketDetail(
   const img =
     sprites.other.showdown['front_default'] ||
     sprites.other['official-artwork']['front_default'];
-  const modifiedIdx =
+  const modifyIdDigit =
     id < 10 ? `000${id}` : id < 100 ? `00${id}` : id < 1000 ? `0${id}` : id;
   return `
     <div class="popup-inner" data-id="${id}">
-      <h3 class="name"><span>#${modifiedIdx}</span> ${name}</h3>
+      <h3 class="name"><span>#${modifyIdDigit}</span> ${name}</h3>
       <div class="info">
         ${genera ? `<p class="kind"><span>분류</span> ${genera}</p>` : ''}
         <p class="height"><span>키</span> ${Math.round(height * 10) / 100}m</p>
