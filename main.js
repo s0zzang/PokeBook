@@ -114,6 +114,7 @@ function handlePopupClose() {
   $popupWrap.textContent = '';
   $popupWrap.classList.remove('is-active');
 }
+
 function handlePopupNavi(node, idx) {
   node.classList.contains('btn-prev')
     ? renderPoketDetail(+idx - 1)

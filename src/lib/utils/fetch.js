@@ -16,10 +16,12 @@ function dataKoFn(data) {
   data.names.forEach((item) => {
     if (item.language.name === 'ko') name = item.name;
   });
+
   let genera = '';
   data.genera.forEach((item) => {
     if (item.language.name === 'ko') genera = item.genus;
   });
+
   let flavor = '';
   data['flavor_text_entries'].forEach((item) => {
     if (item.language.name === 'ko') flavor = item['flavor_text'];
