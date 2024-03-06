@@ -9,6 +9,23 @@ const $typeSelect = document.querySelector('#type');
 const $moreBtn = document.querySelector('.more-btn');
 const $popupWrap = document.querySelector('.popup-wrap');
 
+const renderType = async () => {
+  const response = await fetch(`${VITE_END_POINT_TYPE}`);
+  if (!response.ok) throw new Error(`타입별 데이터 통신에 실패했습니다.`);
+  const data = await response.json();
+  const typePromises = data.results.map((type) =>
+    fetch(type.url).then((response) => response.json())
+  );
+  const types = await Promise.all(typePromises);
+
+  const template = types.map(
+    (item) =>
+      `<option value="${item.id}">${item.names.find((arr) => arr.language.name === 'ko').name}</option>`
+  );
+
+  $typeSelect.insertAdjacentHTML('beforeend', template);
+};
+
 const renderPoketList = async (END_POINT) => {
   try {
     const response = await fetch(END_POINT);
@@ -152,6 +169,7 @@ function selectedView(target, isViewAll) {
   isViewAll && renderPoketList(VITE_END_POINT_POKEMON);
 }
 
+renderType();
 renderPoketList(VITE_END_POINT_POKEMON);
 $moreBtn.addEventListener('click', handleMore);
 $toTopBtn.addEventListener('click', handleTop);
